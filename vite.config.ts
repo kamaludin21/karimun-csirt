@@ -3,14 +3,8 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-const plugins = [react()];
-
-// if (process.env.NODE_ENV === "development") {
-//   plugins.push(componentTagger());
-// }
-
-export default defineConfig({
-  plugins,
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
@@ -18,10 +12,11 @@ export default defineConfig({
       overlay: false,
     },
   },
-
+  // HAPUS .filter(Boolean) di baris ini
+  plugins: [react(), mode === "development" && componentTagger()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+}));
